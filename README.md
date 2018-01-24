@@ -37,15 +37,22 @@ full details.
 ### cmsweb frontend rules
 
 ##### frontend nossl rule
+```
 RewriteRule ^(/test(/.*)?)$ https://%{SERVER_NAME}${escape:$1}%{env:CMS_QUERY} [R=301,NE,L]
+```
 
 ##### frontend ssl rule
+```
 RewriteRule ^(/test(/.*)?)$ /auth/verify${escape:$1} [QSA,PT,E=AUTH_SPEC:cert]
 RewriteRule ^/auth/complete(/test(/.*)?)$ http://%{ENV:BACKEND}:8800${escape:$1} [QSA,P,L,NE]
+```
 
 ##### authentication rule to /data/srv/current/config/frontend/backends-preprod.txt
+```
 ^/auth/complete/test(?:/|$) vocms0131.cern.ch|vocms0132.cern.ch
+```
 
 ##### restart httpd to reload applied rules
+```
 sudo service httpd reload
-
+```
